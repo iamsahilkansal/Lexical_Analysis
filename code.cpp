@@ -1,10 +1,12 @@
 #include <bits/stdc++.h>
 using namespace std;
+
 vector<string> Keyword;
 vector<string> Operator;
 vector<string> Variable;
 vector<string> Constant;
 vector<string> Special;
+
 bool isMultiple(vector<string> a, string test)
 {
     int n = a.size();
@@ -17,6 +19,7 @@ bool isMultiple(vector<string> a, string test)
     }
     return true;
 }
+
 bool isKeyword(string a)
 {
     if ((a == "int") || (a == "char") || (a == "float") || (a == "double") || (a == "bool") || (a == "string") ||
@@ -29,15 +32,17 @@ bool isKeyword(string a)
     }
     return false;
 }
+
 bool isOperator(string a)
 {
-    if ((a == ">") || (a == "<") || (a == "=") || (a == ">=") || (a == "<=") || (a == "+") || (a == "-") ||
-        (a == "==") || (a == "*") || (a == "/"))
+    if ((a == ">") || (a == "<") || (a == "=") || (a == ">=") || (a == "<=") || (a == "+") || (a == "-") || (a == "++") ||(a == "--") ||
+        (a == "==") || (a == "*") || (a == "/") || (a == "%"))
     {
         return true;
     }
     return false;
 }
+
 bool isVariable(string a)
 {
     if (isalpha(a[0]) || a[0] == '_')
@@ -46,6 +51,7 @@ bool isVariable(string a)
     }
     return false;
 }
+
 bool isConstant(string a)
 {
     for (int i = 0; i < a.length(); i++)
@@ -57,6 +63,7 @@ bool isConstant(string a)
     }
     return true;
 }
+
 bool isSpecialSymbol(string a)
 {
     if ((a == ";") || (a == ":") || (a == ",") || (a == "#") || (a == "_") || (a == "^") || (a == "{}") || (a == "[]") ||
@@ -66,6 +73,7 @@ bool isSpecialSymbol(string a)
     }
     return false;
 }
+
 void parse(vector<string> a)
 {
     int n = a.size();
@@ -108,6 +116,7 @@ void parse(vector<string> a)
         }
     }
 }
+
 void lexical_analysis()
 {
     if (Keyword.size() > 0)
@@ -156,6 +165,7 @@ void lexical_analysis()
     }
     cout << endl;
 }
+
 vector<string> substr(string a)
 {
     vector<string> test;
@@ -175,6 +185,7 @@ vector<string> substr(string a)
     }
     return test;
 }
+
 int main()
 {
     ifstream in("program.txt");
