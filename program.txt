@@ -1,6 +1,11 @@
 # include < iostream >
 using namespace std ;
 int main () {
-    int a = 3 + 2 ;
-    cout << a  ;
+    int counter = 0 ;
+    int i , a[3] ;
+    for ( i = 0 ; i < n ; i ++ ) {
+        counter ++ ;
+    }
+    float counter = counter / 10 ; 
+    double counter = ( counter / i ) % 2 ;
 } $
