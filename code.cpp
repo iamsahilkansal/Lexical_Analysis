@@ -6,6 +6,18 @@ vector<string> Operator;
 vector<string> Variable;
 vector<string> Constant;
 vector<string> Special;
+vector<string> Comment;
+vector<string> Words;
+
+bool isMultiple(vector<string> a, string test);
+bool isKeyword(string a);
+bool isOperator(string a);
+bool isVariable(string a);
+bool isConstant(string a);
+bool isSpecialSymbol(string a);
+void parse(vector<string> a);
+void lexical_analysis();
+void substr(string a);
 
 bool isMultiple(vector<string> a, string test)
 {
@@ -24,8 +36,8 @@ bool isKeyword(string a)
 {
     if ((a == "int") || (a == "char") || (a == "float") || (a == "double") || (a == "bool") || (a == "string") ||
         (a == "using") || (a == "namespace") || (a == "string") || (a == "std") || (a == "main") || (a == "cout") ||
-        (a == "cin") || (a == "include") || (a == "iostream") || (a == "for") || (a == "while") || (a == "do") || 
-        (a == "struct") || (a == "auto") || (a == "break") || (a == "case") || (a == "const") || (a == "continue") || 
+        (a == "cin") || (a == "include") || (a == "iostream") || (a == "for") || (a == "while") || (a == "do") ||
+        (a == "struct") || (a == "auto") || (a == "break") || (a == "case") || (a == "const") || (a == "continue") ||
         (a == "if") || (a == "else") || (a == "void") || (a == "long"))
     {
         return true;
@@ -35,8 +47,8 @@ bool isKeyword(string a)
 
 bool isOperator(string a)
 {
-    if ((a == ">") || (a == "<") || (a == "=") || (a == ">=") || (a == "<=") || (a == "+") || (a == "-") || (a == "++") ||(a == "--") ||
-        (a == "==") || (a == "*") || (a == "/") || (a == "%"))
+    if ((a == ">") || (a == "<") || (a == "=") || (a == ">=") || (a == "<=") || (a == "+") || (a == "-") || (a == "++") || 
+        (a == "--") || (a == "==") || (a == "*") || (a == "/") || (a == "%"))
     {
         return true;
     }
@@ -79,6 +91,18 @@ void parse(vector<string> a)
     int n = a.size();
     for (int i = 0; i < n; i++)
     {
+        if (a[i] == "/*")
+        {
+            i++;
+            for (i; i < n; i++)
+            {
+                if (a[i] == "*/")
+                {
+                    break;
+                }
+                Comment.push_back(a[i]);
+            }
+        }
         if (isKeyword(a[i]))
         {
             if (isMultiple(Keyword, a[i]))
@@ -119,12 +143,12 @@ void parse(vector<string> a)
 
 void lexical_analysis()
 {
-    if (Keyword.size() > 0)
+    if (Variable.size() > 0)
     {
-        cout << "Keywords: " << Keyword[0];
-        for (int i = 1; i < Keyword.size(); i++)
+        cout << "Variables: " << Variable[0];
+        for (int i = 1; i < Variable.size(); i++)
         {
-            cout << ", " << Keyword[i];
+            cout << ", " << Variable[i];
         }
     }
     cout << endl;
@@ -137,21 +161,21 @@ void lexical_analysis()
         }
     }
     cout << endl;
-    if (Variable.size() > 0)
-    {
-        cout << "Variables: " << Variable[0];
-        for (int i = 1; i < Variable.size(); i++)
-        {
-            cout << ", " << Variable[i];
-        }
-    }
-    cout << endl;
     if (Constant.size() > 0)
     {
         cout << "Constants: " << Constant[0];
         for (int i = 1; i < Constant.size(); i++)
         {
             cout << ", " << Constant[i];
+        }
+    }
+    cout<<endl;
+    if (Keyword.size() > 0)
+    {
+        cout << "Keywords: " << Keyword[0];
+        for (int i = 1; i < Keyword.size(); i++)
+        {
+            cout << ", " << Keyword[i];
         }
     }
     cout << endl;
@@ -164,11 +188,19 @@ void lexical_analysis()
         }
     }
     cout << endl;
+    if (Comment.size() > 0)
+    {
+        cout << "Comments: ";
+        for (int i = 0; i < Comment.size(); i++)
+        {
+            cout << Comment[i] << " ";
+        }
+    }
+    cout << endl;
 }
 
-vector<string> substr(string a)
+void substr(string a)
 {
-    vector<string> test;
     int n = a.length();
     string word;
     for (int i = 0; i < n; i++)
@@ -179,11 +211,10 @@ vector<string> substr(string a)
         }
         if ((isspace(a[i]) && word != "") || (i + 1) >= n)
         {
-            test.push_back(word);
+            Words.push_back(word);
             word.clear();
         }
     }
-    return test;
 }
 
 int main()
@@ -193,13 +224,13 @@ int main()
     for (int j = 0; j < INT_MAX; j++)
     {
         getline(in, a);
-        auto test = substr(a);
-        parse(test);
+        substr(a);
         int n = a.length();
         if (a[n - 1] == '$')
         {
             break;
         }
     }
+    parse(Words);
     lexical_analysis();
 }
